@@ -1,5 +1,6 @@
 <?php
-  if (isset($_POST['btn'])){
+  //if (isset($_POST['btn'])){
+    session_start();
     //toma las etiquetas html
     // $input = htmlentities($_POST['input']);
 
@@ -14,10 +15,14 @@
     // $input = htmlspecialchars($_POST['input']);
 
     // echo $input;
-    $input = strip_tags($_POST['input']);
+    // $input = strip_tags($_POST['input']);
 
-    echo $input;
-  }
+    // echo $input;
+
+    $nombre = $_SESSION["usuario"];
+    $email = $_SESSION["email"];
+  //}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +33,8 @@
   <title>Document</title>
 </head>
 <body>
+  <h1>Bienvenido <?php echo $nombre;  ?></h1>
+  <h1>Bienvenido <?php echo $email;  ?></h1>
   <form method="POST" >
     <input type="text" name="input" placeholder="Enter"><br><br>
     <button type="submit" name="btn">ENTER</button>
