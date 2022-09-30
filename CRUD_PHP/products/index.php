@@ -1,3 +1,10 @@
+<?php
+	include '../app/ProductsController.php';
+
+	$productsController = new ProductsController();
+	//$products=$productsController->getProducts();
+	$products=$productsController->getProducts();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -28,9 +35,9 @@
 					<section> 
 						<div class="row bg-light m-2">
 							<div class="col">
-								<label>
-									/Productos
-								</label>
+								
+									<label>/Products</label>
+								
 							</div>
 							<div class="col">
 								<button data-bs-toggle="modal" data-bs-target="#addProductModal" class=" float-end btn btn-primary">
@@ -43,15 +50,15 @@
 					<section>
 						
 						<div class="row">
-							
-							<?php for ($i=0; $i < 12; $i++): ?>
+							<?php if(isset($products) && count($product)):?>
+							<?php foreach ($products as $product): ?>
 
 							<div class="col-md-4 col-sm-12"> 
 
 								<div class="card mb-2">
 								  <img src="../public/img/logo.png" class="card-img-top" alt="...">
 								  <div class="card-body">
-								    <h5 class="card-title">Card title</h5>
+								    <h5 class="card-title"><?php echo $product->name ?></h5>
 								    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
 								    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 
@@ -72,8 +79,9 @@
 
 							</div>
 
-							<?php endfor; ?>
 
+							<?php endforeach; ?>
+							<?php endif; ?>
 						</div>
 
 					</section> 
