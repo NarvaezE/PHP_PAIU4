@@ -1,0 +1,42 @@
+@bgColor: #8385DA;
+
+.setBackgroudGenreal(@color){
+	background-color: @color;
+}
+
+.container{
+
+	width: 80%;
+	margin: auto;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	border-radius:5px;
+
+	fieldset{
+		form{
+
+			.setBackgroudGenreal(yellow);
+
+			label{
+				margin-top: 10px;
+				display: block;
+				background-color: @bgColor;
+			}
+
+			input{
+				width: 50%;
+			}
+
+			button{
+				width: 80%;
+				display: block;
+				margin: auto;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				background-color:#CA83DA;
+				color:white;
+				border-radius: 5px;
+				border-style: none;
+			}
+		}
+	}
+}
