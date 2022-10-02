@@ -103,17 +103,28 @@
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 
-		      <form>
+		      <form method="post" action="../app/ProductsController.php">
 
 			      <div class="modal-body">
-			        
-			        <?php for ($i=0; $i < 6; $i++): ?>
-			        <div class="input-group mb-3">
-					  <span class="input-group-text" id="basic-addon1">@</span>
-					  <input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-					</div>
-					<?php endfor; ?>
-
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input required type="text" name="name" class="form-control" placeholder="Nombre producto" aria-label="Name" aria-describedby="basic-addon1">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input required type="text" name="description" class="form-control" placeholder="Descripcion" aria-label="Description" aria-describedby="basic-addon1">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input required type="text" name="features" class="form-control" placeholder="Caracteristicas" aria-label="Features" aria-describedby="basic-addon1">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input required type="text" name="brand_id" class="form-control" placeholder="ID Marca" aria-label="ID Marca" aria-describedby="basic-addon1">
+							</div>
+							<input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+							<input name="uploadedfile" type="file" />
+							<input type="submit" value="Subir archivo" />
 			      </div>
 
 			      <div class="modal-footer">
@@ -123,8 +134,9 @@
 			        <button type="submit" class="btn btn-primary">
 			        	Save changes
 			        </button>
+							
 			      </div>
-
+						<input type="hidden" name="action" value="create" />
 		      </form>
 
 		    </div>

@@ -46,7 +46,7 @@
 								  <span class="input-group-text" id="basic-addon1">
 								  	@
 								  </span>
-								  <input type="text" name="email" class="form-control" placeholder="Correo electrónico" aria-label="Username" aria-describedby="basic-addon1" required>
+								  <input type="text" name="email" class="form-control" placeholder="Correo electrónico" aria-label="Email" aria-describedby="basic-addon1" required>
 								</div>
 							</div>  
 								
@@ -58,7 +58,7 @@
 								  <span class="input-group-text" id="basic-addon1">
 								  	@
 								  </span>
-								  <input type="text" name="password" class="form-control" placeholder="* * * * * * *" aria-label="Username" aria-describedby="basic-addon1" required>
+								  <input type="text" name="password" class="form-control" placeholder="* * * * * * *" aria-label="Password" aria-describedby="basic-addon1" required>
 								</div>
 							</div> 
 
