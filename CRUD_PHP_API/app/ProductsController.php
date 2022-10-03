@@ -5,17 +5,29 @@
     switch ($_POST['action']){
       case 'create':
           
-          $name = strip_tags($_POST['name']);
-          $description = strip_tags($_POST['description']);
-          $features = strip_tags($_POST['features']);
-          $brand_id = strip_tags($_POST['brand_id']);
+        $name = strip_tags($_POST['name']);
+        $description = strip_tags($_POST['description']);
+        $features = strip_tags($_POST['features']);
+        $brand_id = strip_tags($_POST['brand_id']);
+       
+        
+        $target_path = "uploads/";
+        $target_path = $target_path . basename( $_FILES['uploadedfile']['name']); 
+        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+            echo "El archivo ".  basename( $_FILES['uploadedfile']['name']). 
+            " ha sido subido";
+            echo $target_path;
+        } else{
+            echo "Ha ocurrido un error, trate de nuevo!";
+        }
 
-          
-          
-          // echo $name. ' ' .$description. ' ' .$features. ' ' .$brand_id;
-          $createProduct = new ProductsController($name, $description, $features, $brand_id);
-          $createProduct->createProduct($name, $description, $features, $brand_id);
+
+          echo $name. ' ' .$description. ' ' .$features. ' ' .$brand_id;
+          $createProduct = new ProductsController($name, $description, $features, $brand_id, $target_path);
+          $createProduct->createProduct($name, $description, $features, $brand_id, $target_path);
         break;
+        
+
     }
   }
   
@@ -52,11 +64,11 @@
       }
     }
 
-    public function createProduct($name, $description, $features, $brand_id){
+    public function createProduct($name, $description, $features, $brand_id,$target_path){
 
       $curl = curl_init();
       $slug = preg_replace('/\s+/', '_', $name);
-
+      echo $target_path;
       curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
         CURLOPT_RETURNTRANSFER => true,
@@ -71,7 +83,8 @@
           'slug' => $slug,
           'description' => $description,
           'features' => $features,
-          'brand_id' => $brand_id
+          'brand_id' => $brand_id,
+          'cover' => new CURLFILE($target_path)
           ),
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION["token"]

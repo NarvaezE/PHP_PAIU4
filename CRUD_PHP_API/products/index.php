@@ -1,6 +1,5 @@
 <?php
 	include '../app/ProductsController.php';
-
 	$productsController = new ProductsController();
 	//$products=$productsController->getProducts();
 	$products=$productsController->getProducts();
@@ -102,8 +101,8 @@
 		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
-
-		      <form method="post" action="../app/ProductsController.php">
+					
+		      <form enctype="multipart/form-data" method="post" action="../app/ProductsController.php">
 
 			      <div class="modal-body">
 							<div class="input-group mb-3">
@@ -121,12 +120,10 @@
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input required type="text" name="brand_id" class="form-control" placeholder="ID Marca" aria-label="ID Marca" aria-describedby="basic-addon1">
-							</div>
-							<input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-							<input name="uploadedfile" type="file" />
-							<input type="submit" value="Subir archivo" />
+							</div>			
 			      </div>
-
+						
+						<input name="uploadedfile" type="file" required/>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 			        	Close
