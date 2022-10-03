@@ -41,6 +41,15 @@
       
 
       if (isset($response->code) && $response->code>0){
+
+        session_start();
+        $_SESSION['id'] = $response->data->id;
+        $_SESSION['name'] = $response->data->name;
+        $_SESSION['lastname'] = $response->data->lastname;
+        $_SESSION['avatar'] = $response->data->avatar;
+        $_SESSION['role'] = $response->data->role;
+        $_SESSION['token'] = $response->data->token;
+        
         header("Location: ../products?success");
       }else{
         header("Location: ../?error");
