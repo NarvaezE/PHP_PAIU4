@@ -1,3 +1,11 @@
+<?php
+$slug=$_GET['slug'];
+
+include '../app/ProductsController.php';
+	$productsController = new ProductsController();
+	//$products=$productsController->getProducts();
+	$product=$productsController->getProductBySlug($slug);
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -25,93 +33,105 @@
 
 				<div class="col-md-10 col-lg-10 col-sm-12">
 
-				<div class="col-md-10 col-lg-10 col-sm-12">
+					<div class="col-md-10 col-lg-10 col-sm-12">
 
-				<section> 
-					<div class="row bg-light m-2">
-						<div class="col">
-							<label>
-								/Productos
-							</label>
-						</div>
-						
-					</div> 
-				</section>
-					
-					<section>
-						
-						<div class="row">
-							
-
-							<div class="col-md-4 col-sm-12"> 
-
-								<div class="card mb-2">
-								  <img src="../public/img/logo.png" class="card-img-top" alt="...">
-								  <div class="card-body">
-								    <h5 class="card-title">Card title</h5>
-								    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-								    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-								    <div class="row">
-									    <a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
-									    	Editar
-									    </a>
-									    <a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
-									    	Eliminar
-									    </a>
-
-								    </div>
-
-								  </div>
-								</div>  
-
+						<section> 
+							<div class="row bg-light m-2">
+								<div class="col">
+									<label>
+										/Productos
+									</label>
+								</div>
+								
+							</div> 
+						</section>
+						<div class="container mt-5 mb-5">
+							<div class="row d-flex justify-content-center">
+								<div class="col-md-10">
+										<div class="card">
+												<div class="row">
+														<div class="col-md-6">
+																<div class="images p-3">
+																		<div class="text-center p-4"> <img id="main-image" src="<?= $product->cover ?>" width="250" /> </div>
+																</div>
+														</div>
+														<div class="col-md-6">
+																<div class="product p-4">
+																		<div class="d-flex justify-content-between align-items-center">
+																				<div class="d-flex align-items-center"> <i class="fa fa-long-arrow-left"></i> <span class="ml-1">Back</span> </div> <i class="fa fa-shopping-cart text-muted"></i>
+																		</div>
+																		<div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand"><?= $product->brand->name ?> </span>
+																				<h5 class="text-uppercase"><?= $product->name ?></h5>
+																				<!-- <div class="price d-flex flex-row align-items-center"> <span class="act-price">$20</span>
+																						<div class="ml-2"> <small class="dis-price">$59</small> <span>40% OFF</span> </div>
+																				</div> -->
+																		</div>
+																		<p class="about"><?= $product->description ?></p>
+																		
+																		<div class="cart mt-4 align-items-center"> <button class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i> </div>
+																</div>
+														</div>
+												</div>
+										</div>
+								</div>
 							</div>
-						</div>
-
-					</section> 
-
-					 
-				</div>
-
-			</div>
-
-		</div>
-
-		<!-- Modal -->
-		<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-
-		      <form>
-
-			      <div class="modal-body">
-			        
-			        <?php for ($i=0; $i < 6; $i++): ?>
-			        <div class="input-group mb-3">
-					  <span class="input-group-text" id="basic-addon1">@</span>
-					  <input required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+							<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Marca </th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Nombre</th>
+								<td><?= $product->brand->name ?></td>
+							</tr>
+							<tr>
+								<th scope="row">Descripción</th>
+								<td><?= $product->brand->description ?></td>
+							</tr>
+							<tr>
+								<th scope="row">Slug</th>
+								<td><?= $product->brand->slug ?></td>
+							</tr>
+							<tr>
+								<th scope="row">ID</th>
+								<td><?= $product->brand->id ?></td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Categorias </th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Nombre</th>
+								<td><?= $product->categories[0]->name ?></td>
+							</tr>
+							<tr>
+								<th scope="row">Descripción</th>
+								<td><?= $product->categories[0]->description ?></td>
+							</tr>
+							<tr>
+								<th scope="row">Slug</th>
+								<td><?= $product->categories[0]->slug ?></td>
+							</tr>
+							<tr>
+								<th scope="row">ID</th>
+								<td><?= $product->categories[0]->id ?></td>
+							</tr>
+						</tbody>
+					</table>
 					</div>
-					<?php endfor; ?>
-
-			      </div>
-
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-			        	Close
-			        </button>
-			        <button type="submit" class="btn btn-primary">
-			        	Save changes
-			        </button>
-			      </div>
-
-		      </form>
-
-		    </div>
-		  </div>
+					
+				</div>
+			</div>
 		</div>
 
 		<?php

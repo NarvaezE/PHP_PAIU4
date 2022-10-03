@@ -69,17 +69,14 @@
 									    <a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
 									    	Eliminar
 									    </a>
-									    <a href="detalles.php" class="btn btn-info col-12">
+									    <a href="detalles.php?slug=<?= $product->slug ?>" class="btn btn-info col-12" >
 									    	Detalles
 									    </a>
 								    </div>
-
 								  </div>
 								</div>  
 
 							</div>
-
-
 							<?php endforeach; ?>
 							<?php endif; ?>
 						</div>
@@ -102,7 +99,7 @@
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 					
-		      <form enctype="multipart/form-data" method="post" action="../app/ProductsController.php">
+		      <form enctype="multipart/form-data"  method="post" action="../app/ProductsController.php">
 
 			      <div class="modal-body">
 							<div class="input-group mb-3">
