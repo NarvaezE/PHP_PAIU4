@@ -1,4 +1,0 @@
-Options +FollowSymLinks
-RewriteEngine on
-
-RewriteRule ^blog/([0-9]+) blog.php?publicacion_id=$1

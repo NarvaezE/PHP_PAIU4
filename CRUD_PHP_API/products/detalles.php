@@ -39,7 +39,7 @@ include '../app/ProductsController.php';
 							<div class="row bg-light m-2">
 								<div class="col">
 									<label>
-										/Productos
+										/<a href="index.php">Products</a>/<?= $product->slug ?>
 									</label>
 								</div>
 								
@@ -58,78 +58,46 @@ include '../app/ProductsController.php';
 														<div class="col-md-6">
 																<div class="product p-4">
 																		<div class="d-flex justify-content-between align-items-center">
-																				<div class="d-flex align-items-center"> <i class="fa fa-long-arrow-left"></i> <span class="ml-1">Back</span> </div> <i class="fa fa-shopping-cart text-muted"></i>
 																		</div>
 																		<div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand"><?= $product->brand->name ?> </span>
 																				<h5 class="text-uppercase"><?= $product->name ?></h5>
-																				<!-- <div class="price d-flex flex-row align-items-center"> <span class="act-price">$20</span>
-																						<div class="ml-2"> <small class="dis-price">$59</small> <span>40% OFF</span> </div>
-																				</div> -->
+																				
 																		</div>
 																		<p class="about"><?= $product->description ?></p>
+																		<h6 class="text-uppercase">Caracteristicas</h5>
+																		<p class="about"><?= $product->features ?></p>
+
+																		<h5 class="text">Categorias</h5>
+																		<?php if(isset($product->categories) && count($product->categories)):?>
+																			<?php foreach ($product->categories as $category): ?>
+
+																				<a class="btn btn-primary mb-3" href="categorias.php?category=<?=$category->name ?>" role="button"><?=$category->name?></a>
+																			<?php endforeach; ?>
+																		<?php endif; ?>
+
+																		<h5 class="text">Etiquetas</h5>
+																		<?php if(isset($product->tags) && count($product->tags)):?>
+																			<?php foreach ($product->tags as $tag): ?>
+
+																				<a class="btn btn-primary mb-3" href="etiquetas.php?tag=<?=$tag->name ?>" role="button"><?=$tag->name?></a>
+																			<?php endforeach; ?>
+																		<?php endif; ?>
 																		
-																		<div class="cart mt-4 align-items-center"> <button class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i> </div>
+																		<div class="row">
+																			<a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 me-1 col-5">
+																				Editar
+																			</a>
+																			<a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 ms-1 col-5">
+																				Eliminar
+																			</a>
+																		</div>
 																</div>
 														</div>
 												</div>
 										</div>
 								</div>
 							</div>
-							<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Marca </th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Nombre</th>
-								<td><?= $product->brand->name ?></td>
-							</tr>
-							<tr>
-								<th scope="row">Descripción</th>
-								<td><?= $product->brand->description ?></td>
-							</tr>
-							<tr>
-								<th scope="row">Slug</th>
-								<td><?= $product->brand->slug ?></td>
-							</tr>
-							<tr>
-								<th scope="row">ID</th>
-								<td><?= $product->brand->id ?></td>
-							</tr>
-						</tbody>
-					</table>
-					<br>
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Categorias </th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Nombre</th>
-								<td><?= $product->categories[0]->name ?></td>
-							</tr>
-							<tr>
-								<th scope="row">Descripción</th>
-								<td><?= $product->categories[0]->description ?></td>
-							</tr>
-							<tr>
-								<th scope="row">Slug</th>
-								<td><?= $product->categories[0]->slug ?></td>
-							</tr>
-							<tr>
-								<th scope="row">ID</th>
-								<td><?= $product->categories[0]->id ?></td>
-							</tr>
-						</tbody>
-					</table>
 					</div>
-					
 				</div>
 			</div>
 		</div>
