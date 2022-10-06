@@ -26,13 +26,13 @@
           $createProduct = new ProductsController($name, $description, $features, $brand_id, $target_path);
           $createProduct->createProduct($name, $description, $features, $brand_id, $target_path);
         break;
-        //case 'delete':
-        //   $id = strip_tags($_POST['id']);
+        case 'remove':
+          $id = strip_tags($_POST['id']);
           
-         //  $productsController = new ProductsController();
+         $productsController = new ProductsController();
 
-        //   echo json_encode($productsController->remove($id)) ;
-        //break;
+          echo json_encode($productsController->remove($id)) ;
+        break;
 
     }
   }

@@ -1,5 +1,6 @@
 <?php
-Class BrandsController{
+Class BrandsController
+{
   public function getBrands(){
     $curl = curl_init();
 
@@ -13,24 +14,22 @@ Class BrandsController{
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'GET',
       CURLOPT_HTTPHEADER => array(
-        'Authorization: '.$_SESSION["token"]
+        'Authorization: Bearer '.$_SESSION["token"]
       ),
     ));
 
     $response = curl_exec($curl);
 
     curl_close($curl);
-    echo $response;
-    exit;
 
     $response = json_decode($response);
 
-      if (isset($response->code) && $response->code>0){
+    if (isset($response->code) && $response->code>0){
 
-        return $response->data;
-      }else{
-        return array();
-      }
+       return $response->data;
+    }else{
+       return array();
+    }
   }
 }
 ?>

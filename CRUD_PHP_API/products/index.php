@@ -2,12 +2,11 @@
 	include '../app/ProductsController.php';
 	include '../app/BrandsController.php';
 	$productsController = new ProductsController();
-	//$products=$productsController->getProducts();
-	$products=$productsController->getProducts();
+	$brandsController = new BrandsController();
+	
 
 	
-	$brandsController = new BrandsController();
-	//$products=$productsController->getProducts();
+	$products=$productsController->getProducts();
 	$brands=$brandsController->getBrands();
 	
 ?>
@@ -65,8 +64,7 @@
 								  <img src="<?= $product->cover ?>" alt="...">
 								  <div class="card-body">
 								    <h5 class="card-title"><?= $product->name ?></h5>
-								    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-								    <p class="card-text"><?= $product->description ?>
+								    <h6 class="card-subtitle mb-2 text-muted"><?= $product->description ?></h6>
 										</p>
 
 								    <div class="row">
@@ -121,17 +119,22 @@
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input required type="text" name="features" class="form-control" placeholder="Caracteristicas" aria-label="Features" aria-describedby="basic-addon1">
 							</div>
-							<div class="mb-3">
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
 								<select name="brand_id" required class="form-control">
 									<?php foreach ($brands as $brand): ?>
 										<option value="<?= $brand->id ?>"><?=$brand->name?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
-							</select>			
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input name="uploadedfile" type="file" required/>
+							</div>
+							
 			      </div>
 						
-						<input name="uploadedfile" type="file" required/>
+						
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 			        	Close
@@ -142,17 +145,13 @@
 							
 			      </div>
 						<input type="hidden" name="action" value="create" />
-
-						<input type="hidden" name="action" value="edit" />
 		      </form>
 
 		    </div>
 		  </div>
 		</div>
 
-		<?php
-					include('../layout/scripts.template.php');
-				?>
+		
 		<script type="text/javascript">
 			function eliminar(id)
 			{
@@ -166,13 +165,11 @@
 				.then((willDelete) => {
 				  if (willDelete) {
 
-						var bodyFormData = new FormData();
-						
+					var bodyFormData = new FormData();
+					bodyFormData.append('id', id);
+					bodyFormData.append('action', 'remove'); 
 
-						axios.post('https://crud.jonathansoto.mx/api/products/1', {
-						firstName: 'Fred',
-						lastName: 'Flintstone'
-					})
+					axios.post('../app/ProductsController.php', bodyFormData)
 					.then(function (response) {
 						console.log(response);
 					})
@@ -181,9 +178,9 @@
 					});
 
 
-				    swal("Poof! Your imaginary file has been deleted!", {
-				      icon: "success",
-				    });
+				     swal("Poof! Your imaginary file has been deleted!", {
+				       icon: "success",
+				   });
 				  } else {
 				    swal("Your imaginary file is safe!");
 				  }
@@ -198,7 +195,10 @@
 					
 			}
 		</script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script> -->
+		<?php
+					include('../layout/scripts.template.php');
+				?>
 	</body>
 </html>
 
