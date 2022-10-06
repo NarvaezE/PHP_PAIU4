@@ -1,8 +1,15 @@
 <?php
 	include '../app/ProductsController.php';
+	include '../app/BrandsController.php';
 	$productsController = new ProductsController();
 	//$products=$productsController->getProducts();
 	$products=$productsController->getProducts();
+
+	
+	$brandsController = new BrandsController();
+	//$products=$productsController->getProducts();
+	$brands=$brandsController->getBrands();
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -66,7 +73,7 @@
 									    <a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
 									    	Editar
 									    </a>
-									    <a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
+									    <a  onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 									    	Eliminar
 									    </a>
 									    <a href="detalles.php?slug=<?= $product->slug ?>" class="btn btn-info col-12" >
@@ -114,10 +121,14 @@
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input required type="text" name="features" class="form-control" placeholder="Caracteristicas" aria-label="Features" aria-describedby="basic-addon1">
 							</div>
-							<div class="input-group mb-3">
-								<span class="input-group-text" id="basic-addon1">@</span>
-								<input required type="text" name="brand_id" class="form-control" placeholder="ID Marca" aria-label="ID Marca" aria-describedby="basic-addon1">
-							</div>			
+							<div class="mb-3">
+								<select name="brand_id" required class="form-control">
+									<?php foreach ($brands as $brand): ?>
+										<option value="<?= $brand->id ?>"><?=$brand->name?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+							</select>			
 			      </div>
 						
 						<input name="uploadedfile" type="file" required/>
@@ -131,6 +142,8 @@
 							
 			      </div>
 						<input type="hidden" name="action" value="create" />
+
+						<input type="hidden" name="action" value="edit" />
 		      </form>
 
 		    </div>
@@ -141,7 +154,7 @@
 					include('../layout/scripts.template.php');
 				?>
 		<script type="text/javascript">
-			function eliminar(target)
+			function eliminar(id)
 			{
 				swal({
 				  title: "Are you sure?",
@@ -152,6 +165,22 @@
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
+
+						var bodyFormData = new FormData();
+						
+
+						axios.post('https://crud.jonathansoto.mx/api/products/1', {
+						firstName: 'Fred',
+						lastName: 'Flintstone'
+					})
+					.then(function (response) {
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+
+
 				    swal("Poof! Your imaginary file has been deleted!", {
 				      icon: "success",
 				    });
@@ -160,7 +189,16 @@
 				  }
 				});
 			}
+			//getDataValue 
+			function edit(target) {
+				let product = JSON.parse(target.error.product);
+					console.log(target.dataset.product);
+
+					//document.getElementById(target.dataset.product)
+					
+			}
 		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script>
 	</body>
 </html>
 

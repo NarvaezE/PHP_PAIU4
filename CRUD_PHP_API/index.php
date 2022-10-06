@@ -58,7 +58,7 @@
 								  <span class="input-group-text" id="basic-addon1">
 								  	@
 								  </span>
-								  <input type="text" name="password" class="form-control" placeholder="* * * * * * *" aria-label="Password" aria-describedby="basic-addon1" required>
+								  <input type="password" name="password" class="form-control" placeholder="* * * * * * *" aria-label="Password" aria-describedby="basic-addon1" required>
 								</div>
 							</div> 
 
