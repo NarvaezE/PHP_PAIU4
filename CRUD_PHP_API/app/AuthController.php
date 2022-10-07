@@ -1,6 +1,5 @@
 <?php
 include_once "config.php";
-
   if (isset($_POST['action'])){
     if (isset($_POST['super_token']) && $_POST['super_token'] == $_SESSION['super_token']){
       switch ($_POST['action']){
@@ -53,9 +52,9 @@ include_once "config.php";
         $_SESSION['role'] = $response->data->role;
         $_SESSION['token'] = $response->data->token;
         
-        header("Location: ../products?success");
+        header("Location:".BASEPATH."products?success");
       }else{
-        header("Location: ../?error");
+        header("Location: ".BASEPATH."?error");
       }
     }
   }
