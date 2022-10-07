@@ -144,7 +144,9 @@
 			        </button>
 							
 			      </div>
-						<input type="hidden" name="action" value="create" />
+						<input type="hidden" id="action" name="action" value="create">
+
+			      <input type="hidden" id="id_product" name="id">
 		      </form>
 
 		    </div>
@@ -165,34 +167,50 @@
 				.then((willDelete) => {
 				  if (willDelete) {
 
-					var bodyFormData = new FormData();
-					bodyFormData.append('id', id);
-					bodyFormData.append('action', 'remove'); 
+				  	var bodyFormData = new FormData();
 
-					axios.post('../app/ProductsController.php', bodyFormData)
-					.then(function (response) {
-						console.log(response);
-					})
-					.catch(function (error) {
-						console.log(error);
-					});
+				  	bodyFormData.append('id', id);
+				  	bodyFormData.append('action', 'delete');
 
+				  	axios.post('../app/ProductsController.php', bodyFormData)
+					  .then(function (response) {
+					    if (response.data) {
+					    	swal("Poof! Your imaginary file has been deleted!", {
+						      icon: "success",
+						    });
+					    }else{
+					    	swal("Error", {
+						      icon: "error",
+						    });;
+					    }
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
 
-				     swal("Poof! Your imaginary file has been deleted!", {
-				       icon: "success",
-				   });
+				    
 				  } else {
 				    swal("Your imaginary file is safe!");
 				  }
 				});
 			}
-			//getDataValue 
-			function edit(target) {
-				let product = JSON.parse(target.error.product);
-					console.log(target.dataset.product);
 
-					//document.getElementById(target.dataset.product)
-					
+			function editProduct(target)
+			{
+			
+				let product = JSON.parse( target.dataset.product )
+
+				document.getElementById('name').value = product.name
+				document.getElementById('slug').value = product.slug
+				document.getElementById('description').value = product.description
+				document.getElementById('features').value = product.features
+				document.getElementById('brand_id').value = product.brand_id
+
+				document.getElementById('id_product').value = product.id
+
+
+				document.getElementById('action').value = 'update'
+
 			}
 		</script>
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script> -->
@@ -201,14 +219,3 @@
 				?>
 	</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

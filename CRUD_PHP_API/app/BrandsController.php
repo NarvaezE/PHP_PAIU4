@@ -1,4 +1,6 @@
 <?php
+include_once "config.php";
+
 Class BrandsController
 {
   public function getBrands(){
