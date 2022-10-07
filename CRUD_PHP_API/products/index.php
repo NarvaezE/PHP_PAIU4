@@ -1,8 +1,14 @@
 <?php
 	include '../app/ProductsController.php';
+	include '../app/BrandsController.php';
 	$productsController = new ProductsController();
-	//$products=$productsController->getProducts();
+	$brandsController = new BrandsController();
+	
+
+	
 	$products=$productsController->getProducts();
+	$brands=$brandsController->getBrands();
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,15 +64,14 @@
 								  <img src="<?= $product->cover ?>" alt="...">
 								  <div class="card-body">
 								    <h5 class="card-title"><?= $product->name ?></h5>
-								    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-								    <p class="card-text"><?= $product->description ?>
+								    <h6 class="card-subtitle mb-2 text-muted"><?= $product->description ?></h6>
 										</p>
 
 								    <div class="row">
 									    <a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
 									    	Editar
 									    </a>
-									    <a onclick="eliminar(this)" href="#" class="btn btn-danger mb-1 col-6">
+									    <a  onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 									    	Eliminar
 									    </a>
 									    <a href="detalles.php?slug=<?= $product->slug ?>" class="btn btn-info col-12" >
@@ -116,11 +121,20 @@
 							</div>
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
-								<input required type="text" name="brand_id" class="form-control" placeholder="ID Marca" aria-label="ID Marca" aria-describedby="basic-addon1">
-							</div>			
+								<select name="brand_id" required class="form-control">
+									<?php foreach ($brands as $brand): ?>
+										<option value="<?= $brand->id ?>"><?=$brand->name?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">@</span>
+								<input name="uploadedfile" type="file" required/>
+							</div>
+							
 			      </div>
 						
-						<input name="uploadedfile" type="file" required/>
+						
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 			        	Close
@@ -130,18 +144,18 @@
 			        </button>
 							
 			      </div>
-						<input type="hidden" name="action" value="create" />
+						<input type="hidden" id="action" name="action" value="create">
+
+			      <input type="hidden" id="id_product" name="id">
 		      </form>
 
 		    </div>
 		  </div>
 		</div>
 
-		<?php
-					include('../layout/scripts.template.php');
-				?>
+		
 		<script type="text/javascript">
-			function eliminar(target)
+			function eliminar(id)
 			{
 				swal({
 				  title: "Are you sure?",
@@ -152,25 +166,56 @@
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
-				    swal("Poof! Your imaginary file has been deleted!", {
-				      icon: "success",
-				    });
+
+				  	var bodyFormData = new FormData();
+
+				  	bodyFormData.append('id', id);
+				  	bodyFormData.append('action', 'delete');
+
+				  	axios.post('../app/ProductsController.php', bodyFormData)
+					  .then(function (response) {
+					    if (response.data) {
+					    	swal("Poof! Your imaginary file has been deleted!", {
+						      icon: "success",
+						    });
+					    }else{
+					    	swal("Error", {
+						      icon: "error",
+						    });;
+					    }
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+
+				    
 				  } else {
 				    swal("Your imaginary file is safe!");
 				  }
 				});
 			}
+
+			function editProduct(target)
+			{
+			
+				let product = JSON.parse( target.dataset.product )
+
+				document.getElementById('name').value = product.name
+				document.getElementById('slug').value = product.slug
+				document.getElementById('description').value = product.description
+				document.getElementById('features').value = product.features
+				document.getElementById('brand_id').value = product.brand_id
+
+				document.getElementById('id_product').value = product.id
+
+
+				document.getElementById('action').value = 'update'
+
+			}
 		</script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script> -->
+		<?php
+					include('../layout/scripts.template.php');
+				?>
 	</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

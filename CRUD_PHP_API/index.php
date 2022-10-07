@@ -1,5 +1,5 @@
 <?php
-	
+	include "app/config.php"
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +58,7 @@
 								  <span class="input-group-text" id="basic-addon1">
 								  	@
 								  </span>
-								  <input type="text" name="password" class="form-control" placeholder="* * * * * * *" aria-label="Password" aria-describedby="basic-addon1" required>
+								  <input type="password" name="password" class="form-control" placeholder="* * * * * * *" aria-label="Password" aria-describedby="basic-addon1" required>
 								</div>
 							</div> 
 
@@ -67,6 +67,8 @@
 							</button>
 
 							<input type="hidden" name="action" value="access" />
+
+							<input type="hidden" name="super_token" value="<?= $_SESSION['super_token']?>" />
 						</form>
 					</div>
 
