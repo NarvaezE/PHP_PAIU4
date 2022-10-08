@@ -56,6 +56,7 @@ include_once "config.php";
   Class ProductsController
   {
     
+    
     public function getProducts() 
     {
       $curl = curl_init();

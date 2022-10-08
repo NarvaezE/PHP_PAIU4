@@ -204,7 +204,6 @@
 				document.getElementById('features').value = product.features
 				document.getElementById('brand_id').value = product.brand_id
 
-				document.getElementById('id_product').value = product.id
 
 
 				document.getElementById('action').value = 'update'
