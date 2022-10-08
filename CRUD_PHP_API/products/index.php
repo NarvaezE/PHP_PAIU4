@@ -1,6 +1,9 @@
 <?php
 	include '../app/ProductsController.php';
 	include '../app/BrandsController.php';
+
+	$tkn= $_SESSION['super_token'];
+
 	$productsController = new ProductsController();
 	$brandsController = new BrandsController();
 	
@@ -66,7 +69,7 @@
 										</p>
 
 								    <div class="row">
-									    <a data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
+										<a data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" data-bs-toggle="modal" data-bs-target="#addProductModal" href="#" class="btn btn-warning mb-1 col-6">
 									    	Editar
 									    </a>
 									    <a  onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
@@ -105,26 +108,31 @@
 		      <form enctype="multipart/form-data"  method="post" action="<?= BASEPATH ?>prods">
 
 			      <div class="modal-body">
+
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
-								<input required type="text" name="name" class="form-control" placeholder="Nombre producto" aria-label="Name" aria-describedby="basic-addon1">
+								<input required type="text" id="name" name="name" class="form-control" placeholder="Nombre producto" aria-label="Name" aria-describedby="basic-addon1">
 							</div>
+
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
-								<input required type="text" name="description" class="form-control" placeholder="Descripcion" aria-label="Description" aria-describedby="basic-addon1">
+								<input required type="text" id="description" name="description" class="form-control" placeholder="Descripcion" aria-label="Description" aria-describedby="basic-addon1">
 							</div>
+
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
-								<input required type="text" name="features" class="form-control" placeholder="Caracteristicas" aria-label="Features" aria-describedby="basic-addon1">
+								<input required type="text" id="features" name="features" class="form-control" placeholder="Caracteristicas" aria-label="Features" aria-describedby="basic-addon1">
 							</div>
+
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
-								<select name="brand_id" required class="form-control">
+								<select name="brand_id" id="brand_id" required class="form-control">
 									<?php foreach ($brands as $brand): ?>
 										<option value="<?= $brand->id ?>"><?=$brand->name?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
+
 							<div class="input-group mb-3">
 								<span class="input-group-text" id="basic-addon1">@</span>
 								<input name="uploadedfile" type="file" required/>
@@ -145,6 +153,8 @@
 						<input type="hidden" id="action" name="action" value="create">
 
 			      <input type="hidden" id="id_product" name="id">
+
+						<input type="hidden" id="super_token" name="super_token" value="<?=  $tkn ?>" />
 		      </form>
 
 		    </div>
@@ -164,13 +174,14 @@
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
-
+						let token = '<?= json_encode($tkn) ?>';
 				  	var bodyFormData = new FormData();
 
 				  	bodyFormData.append('id', id);
 				  	bodyFormData.append('action', 'delete');
+						bodyFormData.append('token', token)
 
-				  	axios.post('../app/ProductsController.php', bodyFormData)
+				  	axios.post('<?= BASEPATH ?>prods', bodyFormData)
 					  .then(function (response) {
 					    if (response.data) {
 					    	swal("Poof! Your imaginary file has been deleted!", {
@@ -197,15 +208,13 @@
 			{
 			
 				let product = JSON.parse( target.dataset.product )
-
+				let token = '<?= $tkn; ?>';
 				document.getElementById('name').value = product.name
-				document.getElementById('slug').value = product.slug
 				document.getElementById('description').value = product.description
 				document.getElementById('features').value = product.features
 				document.getElementById('brand_id').value = product.brand_id
-
-
-
+				document.getElementById('super_token').value = token
+				document.getElementById('id_product').value = product.id
 				document.getElementById('action').value = 'update'
 
 			}

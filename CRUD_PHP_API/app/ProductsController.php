@@ -2,56 +2,57 @@
 include_once "config.php";
 
   if (isset($_POST['action'])){
-    switch ($_POST['action']){
-      case 'create':
-          
-        $name = strip_tags($_POST['name']);
-        $description = strip_tags($_POST['description']);
-        $features = strip_tags($_POST['features']);
-        $brand_id = strip_tags($_POST['brand_id']);
-       
-        
-        $target_path = "uploads/";
-        $target_path = $target_path . basename( $_FILES['uploadedfile']['name']); 
-        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
-            echo "El archivo ".  basename( $_FILES['uploadedfile']['name']). 
-            " ha sido subido";
-            echo $target_path;
-        } else{
-            echo "Ha ocurrido un error, trate de nuevo!";
-        }
-
-
-          echo $name. ' ' .$description. ' ' .$features. ' ' .$brand_id;
-          $createProduct = new ProductsController($name, $description, $features, $brand_id, $target_path);
-          $createProduct->createProduct($name, $description, $features, $brand_id, $target_path);
-        break;
-        case 'update':
-
+    if (isset($_POST['super_token']) && $_POST['super_token'] == $_SESSION['super_token']){
+      switch ($_POST['action']){
+        case 'create':
+            
           $name = strip_tags($_POST['name']);
-          $slug = strip_tags($_POST['slug']);
           $description = strip_tags($_POST['description']);
           $features = strip_tags($_POST['features']);
-          $brand_id = strip_tags($_POST['brand_id']); 
-  
-          $id = strip_tags($_POST['id']); 
-  
-          $productsController = new ProductsController();
-          $productsController->updateProduct($name,$slug,$description,$features,$brand_id,$id);
-        break;
-  
-        case 'delete':
+          $brand_id = strip_tags($_POST['brand_id']);
           
-          $id = strip_tags($_POST['id']);
-  
-          $productsController = new ProductsController();
-  
-          echo json_encode( $productsController->remove($id) );
-  
-        break;
+          
+          $target_path = "uploads/";
+          $target_path = $target_path . basename( $_FILES['uploadedfile']['name']); 
+          if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+              echo "El archivo ".  basename( $_FILES['uploadedfile']['name']). 
+              " ha sido subido";
+              echo $target_path;
+          } else{
+              echo "Ha ocurrido un error, trate de nuevo!";
+          }
 
+            echo $name. ' ' .$description. ' ' .$features. ' ' .$brand_id;
+            $createProduct = new ProductsController($name, $description, $features, $brand_id, $target_path);
+            $createProduct->createProduct($name, $description, $features, $brand_id, $target_path);
+          break;
+          case 'update':
+            $name = strip_tags($_POST['name']);
+            $description = strip_tags($_POST['description']);
+            $features = strip_tags($_POST['features']);
+            $brand_id = strip_tags($_POST['brand_id']); 
+    
+            $id = strip_tags($_POST['id']); 
+    
+            $productsController = new ProductsController();
+            $productsController->updateProduct($name,$description,$features,$brand_id,$id);
+          break;
+    
+          case 'delete':
+            $id = strip_tags($_POST['id']);
+    
+            $productsController = new ProductsController();
+    
+            echo json_encode( $productsController->remove($id) );
+    
+          break;
+  
+      }
+    }else{
+      echo "no jala";
     }
   }
+  
   
   Class ProductsController
   {
@@ -154,9 +155,11 @@ include_once "config.php";
         header("Location:".BASEPATH."?".$response->error);
       }
     }
-    public function updateProduct($name,$slug,$description,$features,$brand_id,$id)
+    public function updateProduct($name,$description,$features,$brand_id,$id)
 		{
 			$curl = curl_init(); 
+
+      echo $name; 
 
 			curl_setopt_array($curl, array(
 			  CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
@@ -167,7 +170,7 @@ include_once "config.php";
 			  CURLOPT_FOLLOWLOCATION => true,
 			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			  CURLOPT_CUSTOMREQUEST => 'PUT',
-			  CURLOPT_POSTFIELDS => 'name='.$name.'&slug='.$slug.'&description='.$description.'&features='.$features.'&brand_id='.$brand_id.'&id='.$id,
+			  CURLOPT_POSTFIELDS => 'name='.$name.'&description='.$description.'&features='.$features.'&brand_id='.$brand_id.'&id='.$id,
 			  CURLOPT_HTTPHEADER => array(
 			   'Authorization: Bearer '.$_SESSION['token'],
 			    'Content-Type: application/x-www-form-urlencoded'
@@ -180,11 +183,11 @@ include_once "config.php";
 
 			if (isset($response->code) && $response->code > 0) { 
 
-				header("Location:../products?success");
+				header("Location:".BASEPATH."products?success");
 
 			}else{
 
-				header("Location:../products?error");
+				header("Location:".BASEPATH."products?error");
 			}
 		}
 
