@@ -4,8 +4,6 @@
 	$productsController = new ProductsController();
 	$brandsController = new BrandsController();
 	
-
-	
 	$products=$productsController->getProducts();
 	$brands=$brandsController->getBrands();
 	
@@ -74,7 +72,7 @@
 									    <a  onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 									    	Eliminar
 									    </a>
-									    <a href="detalles.php?slug=<?= $product->slug ?>" class="btn btn-info col-12" >
+									    <a href="<?= BASEPATH ?>detalles/<?= $product->slug ?>" class="btn btn-info col-12" >
 									    	Detalles
 									    </a>
 								    </div>
@@ -104,7 +102,7 @@
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 					
-		      <form enctype="multipart/form-data"  method="post" action="../app/ProductsController.php">
+		      <form enctype="multipart/form-data"  method="post" action="<?= BASEPATH ?>prods">
 
 			      <div class="modal-body">
 							<div class="input-group mb-3">

@@ -112,7 +112,7 @@ include_once "config.php";
 
         return $response->data;
       }else{
-        header("Location: ../?".$response->message);
+        header("Location:".BASEPATH."products?".$response->error);
       }
     }
     public function createProduct($name, $description, $features, $brand_id,$target_path){
@@ -148,9 +148,9 @@ include_once "config.php";
 
       if (isset($response->code) && $response->code>0){
 
-        header("Location: ../products?".$response->message);
+        header("Location:".BASEPATH."products?".$response->message);
       }else{
-        header("Location: ../products?".$response->error);
+        header("Location:".BASEPATH."?".$response->error);
       }
     }
     public function updateProduct($name,$slug,$description,$features,$brand_id,$id)

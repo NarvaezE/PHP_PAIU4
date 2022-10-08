@@ -1,5 +1,5 @@
 <?php
-$slug=$_GET['slug'];
+echo $slug=$_GET['slug'];
 
 include '../app/ProductsController.php';
 	$productsController = new ProductsController();
@@ -39,7 +39,7 @@ include '../app/ProductsController.php';
 							<div class="row bg-light m-2">
 								<div class="col">
 									<label>
-										/<a href="index.php">Products</a>/<?= $product->slug ?>
+										/<a href="<?= BASEPATH ?>products">Products</a>/<?= $product->slug ?>
 									</label>
 								</div>
 								
