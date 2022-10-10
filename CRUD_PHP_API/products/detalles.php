@@ -1,5 +1,5 @@
 <?php
-echo $slug=$_GET['slug'];
+$slug=$_GET['slug'];
 
 include '../app/ProductsController.php';
 	$productsController = new ProductsController();
@@ -59,7 +59,10 @@ include '../app/ProductsController.php';
 																<div class="product p-4">
 																		<div class="d-flex justify-content-between align-items-center">
 																		</div>
-																		<div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand"><?= $product->brand->name ?> </span>
+																		<div class="mt-4 mb-3"> 
+																			<?php if(isset($product->brand->name) ):?>
+																				<span class="text-uppercase text-muted brand"><?= $product->brand->name ?> </span>
+																			<?php endif; ?>
 																				<h5 class="text-uppercase"><?= $product->name ?></h5>
 																				
 																		</div>

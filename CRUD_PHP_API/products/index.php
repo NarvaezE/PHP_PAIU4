@@ -75,6 +75,8 @@
 									    <a  onclick="eliminar(<?= $product->id ?>)" href="#" class="btn btn-danger mb-1 col-6">
 									    	Eliminar
 									    </a>
+											<input type="hidden" id="basepath" value="<?= BASEPATH ?>prods">
+											<input type="hidden" id="super_token" name="super_token" value="<?=  $tkn ?>" />
 									    <a href="<?= BASEPATH ?>detalles/<?= $product->slug ?>" class="btn btn-info col-12" >
 									    	Detalles
 									    </a>
@@ -174,14 +176,16 @@
 				})
 				.then((willDelete) => {
 				  if (willDelete) {
-						let token = '<?= json_encode($tkn) ?>';
+
+						let token = document.getElementById('super_token').value;
+						let basepath = document.getElementById('basepath').value;
 				  	var bodyFormData = new FormData();
 
 				  	bodyFormData.append('id', id);
 				  	bodyFormData.append('action', 'delete');
-						bodyFormData.append('token', token)
+						bodyFormData.append('super_token', token)
 
-				  	axios.post('<?= BASEPATH ?>prods', bodyFormData)
+				  	axios.post(basepath, bodyFormData)
 					  .then(function (response) {
 					    if (response.data) {
 					    	swal("Poof! Your imaginary file has been deleted!", {
@@ -208,12 +212,11 @@
 			{
 			
 				let product = JSON.parse( target.dataset.product )
-				let token = '<?= $tkn; ?>';
+
 				document.getElementById('name').value = product.name
 				document.getElementById('description').value = product.description
 				document.getElementById('features').value = product.features
 				document.getElementById('brand_id').value = product.brand_id
-				document.getElementById('super_token').value = token
 				document.getElementById('id_product').value = product.id
 				document.getElementById('action').value = 'update'
 
